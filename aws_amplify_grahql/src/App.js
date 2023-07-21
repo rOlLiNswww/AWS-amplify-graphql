@@ -43,6 +43,20 @@ Amplify.configure(awsExports);
 
 // fetchTodos();
 
+function sortItems(items, sortField, sortDirection) {
+  return items.sort((a, b) => {
+    const itemA = a[sortField]?.toLowerCase();
+    const itemB = b[sortField]?.toLowerCase();
+
+    if (itemA < itemB) {
+      return sortDirection === 'asc' ? -1 : 1;
+    }
+    if (itemA > itemB) {
+      return sortDirection === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+}
 
 
 
@@ -54,27 +68,19 @@ const productTodo = {
   ]
 };
 
-async function fetchproTodos() {
+async function fetchSortedProducts() {
   try {
     const todosData1 = await API.graphql({
       query: listProducts,
-      //variables: { filter: productTodo },
       authMode: 'API_KEY',
       apiKey: 'da2-c7fsdmjhqzbd3nfh5anc7dpujy'
     });
 
-    const sortedItems = todosData1.data.listProducts.items.sort((a, b) => {
-      const productA = a.name.toLowerCase();
-      const productB = b.name.toLowerCase();
-
-      if (productA < productB) {
-        return -1;
-      }
-      if (productA > productB) {
-        return 1;
-      }
-      return 0;
-    });
+    const sortedItems = sortItems(
+      todosData1.data.listProducts.items,
+      'code',
+      'ac'
+    );
 
     console.log("Sorted product list:", sortedItems);
   } catch (err) {
@@ -82,7 +88,8 @@ async function fetchproTodos() {
   }
 }
 
-fetchproTodos();
+// 调用示例，传入字段和排序顺序
+fetchSortedProducts();
 
 //订阅
 // const subscribeToUpdateTodo = () => {
