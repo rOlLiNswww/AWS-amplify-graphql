@@ -5,7 +5,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
 import { listTodos } from './graphql/queries';
-import { listProducts } from './graphql/queries';
+import { listProducts,searchProducts } from './graphql/queries';
 
 import awsExports from './aws-exports';
 import { onUpdateTodo, onCreateTodo } from './graphql/subscriptions';
@@ -43,53 +43,90 @@ Amplify.configure(awsExports);
 
 // fetchTodos();
 
-function sortItems(items, sortField, sortDirection) {
-  return items.sort((a, b) => {
-    const itemA = a[sortField]?.toLowerCase();
-    const itemB = b[sortField]?.toLowerCase();
 
-    if (itemA < itemB) {
-      return sortDirection === 'asc' ? -1 : 1;
+
+const MyQuery = `
+query MyQuery {
+  searchProducts(sort: {direction: asc, field: name}, limit: 4, filter: {colour: {wildcard: "*b*"}, supplierID: {wildcard: "*"}, lowest_price: {gte: 1, lte: 20}}) {
+    items {
+      name
+      lowest_price
+      colour
+      Inventories(filter: {stock_onhand: {ge: 1}}) {
+        items {
+          name
+          stock_onhand
+        }
+      }
     }
-    if (itemA > itemB) {
-      return sortDirection === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
+    nextToken
+  }
 }
 
-
-
-const productTodo = {
-  and: [
-    { colour: { contains:'r' } },
-    { name: {contains:'a'}},
-    {supplierID: {contains:'Dex'}}
-  ]
-};
+`;
 
 async function fetchSortedProducts() {
   try {
-    const todosData1 = await API.graphql({
-      query: listProducts,
-      authMode: 'API_KEY',
-      apiKey: 'da2-c7fsdmjhqzbd3nfh5anc7dpujy'
+    const productsData = await API.graphql({
+      query: MyQuery,
     });
 
-    const sortedItems = sortItems(
-      todosData1.data.listProducts.items,
-      'code',
-      'ac'
-    );
-
-    console.log("Sorted product list:", sortedItems);
+    const originalProducts = productsData.data.searchProducts.items;
+    
+    // 此时originalProducts已经是满足条件的产品了，不需要再过滤
+    console.log("Filtered product list:", originalProducts);
   } catch (err) {
     console.log('Error fetching todos:', err);
   }
 }
 
-// 调用示例，传入字段和排序顺序
 fetchSortedProducts();
+
+
+
+// const productFilter = {
+//   name: { wildcard: "*" },
+//   lowest_price: { gte: 0, lte: 20 },
+//   colour: { wildcard: "*" }
+// };
+
+// const inventoryFilter = { stock_onhand: { ge: 1 } };
+
+
+// const productSort = {
+//   field: "code",
+//   direction: "asc"
+// };
+
+// async function fetchSortedProducts() {
+//   try {
+//     const todosData1 = await API.graphql({
+//       query: searchProducts,
+//       variables: {
+//         filter: productFilter,
+//         sort: productSort,
+//         limit:3
+//       }
+//     });
+
+//     const originalProducts = todosData1.data.searchProducts.items;
+
+//     // 过滤出至少有一个库存大于等于90的产品
+//     const filteredProducts = originalProducts.filter(product => {
+//       // 可能有些产品没有库存信息，我们可以使用一个空数组作为默认值
+//       const inventories = product.Inventories.items || [];
+//       return inventories.some(inventory => inventoryFilter.stock_onhand.ge <= inventory.stock_onhand);
+//     });
+
+//     console.log("Filtered product list:", filteredProducts);
+//   } catch (err) {
+//     console.log('Error fetching todos:', err);
+//   }
+// }
+
+// fetchSortedProducts();
+
+
 
 //订阅
 // const subscribeToUpdateTodo = () => {

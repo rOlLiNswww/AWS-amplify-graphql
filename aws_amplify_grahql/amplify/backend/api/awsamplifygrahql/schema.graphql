@@ -1,15 +1,15 @@
-type Inventory @model @auth(rules: [{allow: public}]) {
+type Inventory @model @auth(rules: [{allow: owner}]) {
   id: ID!
-  productID: ID @index(name: "byProduct")
+  productID: ID! @index(name: "byProduct")
   supplierID: ID! @index(name: "bySupplier")
   name: String
   code: String
   colour: AWSJSON
-  stock_onhand: String
+  stock_onhand: Float
   stock_incoming: AWSJSON
 }
 
-type AddOn @model @auth(rules: [{allow: public}]) {
+type AddOn @model @auth(rules: [{allow: owner}]) {
   id: ID!
   cost: Float
   ImprintMethod: ImprintMethod @hasOne
@@ -22,16 +22,16 @@ enum CountryCode {
   NZ
 }
 
-type Supplier @model @auth(rules: [{allow: public}]) {
+type Supplier @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
   code: String
   Products: [Product] @hasMany(indexName: "bySupplier", fields: ["id"])
-  Inventories: [Inventory] @hasMany(indexName: "bySupplier", fields: ["id"])
-  ImprintMethods: [ImprintMethod] @hasMany(indexName: "bySupplier", fields: ["id"])
+  Inventories: [Product] @hasMany(indexName: "bySupplier", fields: ["id"])
+  ImprintMethods: [Product] @hasMany(indexName: "bySupplier", fields: ["id"])
 }
 
-type CategoryChild @model @auth(rules: [{allow: public}]) {
+type CategoryChild @model @auth(rules: [{allow: owner}]) {
   id: ID!
   categoryparentID: ID! @index(name: "byCategoryParent")
   name: String
@@ -39,21 +39,21 @@ type CategoryChild @model @auth(rules: [{allow: public}]) {
   CategoryParent: CategoryParent @belongsTo(fields: ["categoryparentID"])
 }
 
-type CategoryParent @model @auth(rules: [{allow: public}]) {
+type CategoryParent @model @auth(rules: [{allow: owner}]) {
   id: ID!
   CategoryChildren: [CategoryChild] @hasMany(indexName: "byCategoryParent", fields: ["id"])
   name: String
   slug: String
 }
 
-type Decoration @model @auth(rules: [{allow: public}]) {
+type Decoration @model @auth(rules: [{allow: owner}]) {
   id: ID!
   imprint_area: String
   productID: ID! @index(name: "byProduct")
   ImprintMethod: ImprintMethod @hasOne
 }
 
-type ImprintMethod @model @auth(rules: [{allow: public}]) {
+type ImprintMethod @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
   max_colour: String
@@ -62,7 +62,9 @@ type ImprintMethod @model @auth(rules: [{allow: public}]) {
   charges: AWSJSON
 }
 
-type PriceTable @model @auth(rules: [{allow: public}]) {
+type PriceTable 
+  @model  
+  @auth(rules: [{allow: owner}]) {
   id: ID!
   description: String
   productID: ID! @index(name: "byProduct")
@@ -73,9 +75,9 @@ type PriceTable @model @auth(rules: [{allow: public}]) {
 }
 
 type Product 
-@model 
-@auth(rules: [{allow: public}])
- {
+  @model 
+  @searchable
+  @auth(rules: [{allow: owner}, {allow: private}]) {
   id: ID!
   supplierID: ID! @index(name: "bySupplier")
   code: String
@@ -98,10 +100,10 @@ type Product
   AddOns: [AddOn] @hasMany(indexName: "byProduct", fields: ["id"])
   Inventories: [Inventory] @hasMany(indexName: "byProduct", fields: ["id"])
   shipping_cost: AWSJSON
-  lowest_price: AWSJSON
+  lowest_price: Float
   available_country: CountryCode
   additional_info: AWSJSON
   product_url: String
-  images: AWSJSON
   files: AWSJSON
 }
+ 

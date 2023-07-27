@@ -17,6 +17,7 @@ export const createInventory = /* GraphQL */ `
       stock_incoming
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -37,6 +38,7 @@ export const updateInventory = /* GraphQL */ `
       stock_incoming
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -57,6 +59,7 @@ export const deleteInventory = /* GraphQL */ `
       stock_incoming
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -78,6 +81,7 @@ export const createAddOn = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       name
@@ -85,6 +89,7 @@ export const createAddOn = /* GraphQL */ `
       createdAt
       updatedAt
       addOnImprintMethodId
+      owner
       __typename
     }
   }
@@ -106,6 +111,7 @@ export const updateAddOn = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       name
@@ -113,6 +119,7 @@ export const updateAddOn = /* GraphQL */ `
       createdAt
       updatedAt
       addOnImprintMethodId
+      owner
       __typename
     }
   }
@@ -134,6 +141,7 @@ export const deleteAddOn = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       name
@@ -141,6 +149,7 @@ export const deleteAddOn = /* GraphQL */ `
       createdAt
       updatedAt
       addOnImprintMethodId
+      owner
       __typename
     }
   }
@@ -155,71 +164,20 @@ export const createSupplier = /* GraphQL */ `
       name
       code
       Products {
-        items {
-          id
-          supplierID
-          code
-          colour
-          name
-          related_product
-          is_discontinued
-          supplier_categories
-          short_description
-          full_description
-          feature_tags
-          keywords
-          colour_details
-          avaliable_branding
-          spedification
-          packaging
-          shipping_cost
-          lowest_price
-          available_country
-          additional_info
-          product_url
-          images
-          files
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       ImprintMethods {
-        items {
-          id
-          name
-          max_colour
-          supplierID
-          services
-          charges
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -234,71 +192,20 @@ export const updateSupplier = /* GraphQL */ `
       name
       code
       Products {
-        items {
-          id
-          supplierID
-          code
-          colour
-          name
-          related_product
-          is_discontinued
-          supplier_categories
-          short_description
-          full_description
-          feature_tags
-          keywords
-          colour_details
-          avaliable_branding
-          spedification
-          packaging
-          shipping_cost
-          lowest_price
-          available_country
-          additional_info
-          product_url
-          images
-          files
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       ImprintMethods {
-        items {
-          id
-          name
-          max_colour
-          supplierID
-          services
-          charges
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -313,71 +220,20 @@ export const deleteSupplier = /* GraphQL */ `
       name
       code
       Products {
-        items {
-          id
-          supplierID
-          code
-          colour
-          name
-          related_product
-          is_discontinued
-          supplier_categories
-          short_description
-          full_description
-          feature_tags
-          keywords
-          colour_details
-          avaliable_branding
-          spedification
-          packaging
-          shipping_cost
-          lowest_price
-          available_country
-          additional_info
-          product_url
-          images
-          files
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       ImprintMethods {
-        items {
-          id
-          name
-          max_colour
-          supplierID
-          services
-          charges
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -394,18 +250,16 @@ export const createCategoryChild = /* GraphQL */ `
       slug
       CategoryParent {
         id
-        CategoryChildren {
-          nextToken
-          __typename
-        }
         name
         slug
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -422,18 +276,16 @@ export const updateCategoryChild = /* GraphQL */ `
       slug
       CategoryParent {
         id
-        CategoryChildren {
-          nextToken
-          __typename
-        }
         name
         slug
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -450,18 +302,16 @@ export const deleteCategoryChild = /* GraphQL */ `
       slug
       CategoryParent {
         id
-        CategoryChildren {
-          nextToken
-          __typename
-        }
         name
         slug
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -474,15 +324,6 @@ export const createCategoryParent = /* GraphQL */ `
     createCategoryParent(input: $input, condition: $condition) {
       id
       CategoryChildren {
-        items {
-          id
-          categoryparentID
-          name
-          slug
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -490,6 +331,7 @@ export const createCategoryParent = /* GraphQL */ `
       slug
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -502,15 +344,6 @@ export const updateCategoryParent = /* GraphQL */ `
     updateCategoryParent(input: $input, condition: $condition) {
       id
       CategoryChildren {
-        items {
-          id
-          categoryparentID
-          name
-          slug
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -518,6 +351,7 @@ export const updateCategoryParent = /* GraphQL */ `
       slug
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -530,15 +364,6 @@ export const deleteCategoryParent = /* GraphQL */ `
     deleteCategoryParent(input: $input, condition: $condition) {
       id
       CategoryChildren {
-        items {
-          id
-          categoryparentID
-          name
-          slug
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -546,6 +371,7 @@ export const deleteCategoryParent = /* GraphQL */ `
       slug
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -568,11 +394,13 @@ export const createDecoration = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
       decorationImprintMethodId
+      owner
       __typename
     }
   }
@@ -595,11 +423,13 @@ export const updateDecoration = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
       decorationImprintMethodId
+      owner
       __typename
     }
   }
@@ -622,11 +452,13 @@ export const deleteDecoration = /* GraphQL */ `
         charges
         createdAt
         updatedAt
+        owner
         __typename
       }
       createdAt
       updatedAt
       decorationImprintMethodId
+      owner
       __typename
     }
   }
@@ -645,6 +477,7 @@ export const createImprintMethod = /* GraphQL */ `
       charges
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -663,6 +496,7 @@ export const updateImprintMethod = /* GraphQL */ `
       charges
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -681,6 +515,7 @@ export const deleteImprintMethod = /* GraphQL */ `
       charges
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -700,6 +535,7 @@ export const createPriceTable = /* GraphQL */ `
       pricing
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -719,6 +555,7 @@ export const updatePriceTable = /* GraphQL */ `
       pricing
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -738,6 +575,7 @@ export const deletePriceTable = /* GraphQL */ `
       pricing
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -752,18 +590,6 @@ export const createProduct = /* GraphQL */ `
       supplierID
       code
       PriceTables {
-        items {
-          id
-          description
-          productID
-          country_code
-          moq
-          moq_surcharge
-          pricing
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -773,35 +599,15 @@ export const createProduct = /* GraphQL */ `
         id
         name
         code
-        Products {
-          nextToken
-          __typename
-        }
-        Inventories {
-          nextToken
-          __typename
-        }
-        ImprintMethods {
-          nextToken
-          __typename
-        }
         createdAt
         updatedAt
+        owner
         __typename
       }
       related_product
       is_discontinued
       supplier_categories
       Decorations {
-        items {
-          id
-          imprint_area
-          productID
-          createdAt
-          updatedAt
-          decorationImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
@@ -814,33 +620,10 @@ export const createProduct = /* GraphQL */ `
       spedification
       packaging
       AddOns {
-        items {
-          id
-          cost
-          name
-          productID
-          createdAt
-          updatedAt
-          addOnImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -849,10 +632,10 @@ export const createProduct = /* GraphQL */ `
       available_country
       additional_info
       product_url
-      images
       files
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -867,18 +650,6 @@ export const updateProduct = /* GraphQL */ `
       supplierID
       code
       PriceTables {
-        items {
-          id
-          description
-          productID
-          country_code
-          moq
-          moq_surcharge
-          pricing
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -888,35 +659,15 @@ export const updateProduct = /* GraphQL */ `
         id
         name
         code
-        Products {
-          nextToken
-          __typename
-        }
-        Inventories {
-          nextToken
-          __typename
-        }
-        ImprintMethods {
-          nextToken
-          __typename
-        }
         createdAt
         updatedAt
+        owner
         __typename
       }
       related_product
       is_discontinued
       supplier_categories
       Decorations {
-        items {
-          id
-          imprint_area
-          productID
-          createdAt
-          updatedAt
-          decorationImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
@@ -929,33 +680,10 @@ export const updateProduct = /* GraphQL */ `
       spedification
       packaging
       AddOns {
-        items {
-          id
-          cost
-          name
-          productID
-          createdAt
-          updatedAt
-          addOnImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -964,10 +692,10 @@ export const updateProduct = /* GraphQL */ `
       available_country
       additional_info
       product_url
-      images
       files
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -982,18 +710,6 @@ export const deleteProduct = /* GraphQL */ `
       supplierID
       code
       PriceTables {
-        items {
-          id
-          description
-          productID
-          country_code
-          moq
-          moq_surcharge
-          pricing
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -1003,35 +719,15 @@ export const deleteProduct = /* GraphQL */ `
         id
         name
         code
-        Products {
-          nextToken
-          __typename
-        }
-        Inventories {
-          nextToken
-          __typename
-        }
-        ImprintMethods {
-          nextToken
-          __typename
-        }
         createdAt
         updatedAt
+        owner
         __typename
       }
       related_product
       is_discontinued
       supplier_categories
       Decorations {
-        items {
-          id
-          imprint_area
-          productID
-          createdAt
-          updatedAt
-          decorationImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
@@ -1044,33 +740,10 @@ export const deleteProduct = /* GraphQL */ `
       spedification
       packaging
       AddOns {
-        items {
-          id
-          cost
-          name
-          productID
-          createdAt
-          updatedAt
-          addOnImprintMethodId
-          __typename
-        }
         nextToken
         __typename
       }
       Inventories {
-        items {
-          id
-          productID
-          supplierID
-          name
-          code
-          colour
-          stock_onhand
-          stock_incoming
-          createdAt
-          updatedAt
-          __typename
-        }
         nextToken
         __typename
       }
@@ -1079,10 +752,10 @@ export const deleteProduct = /* GraphQL */ `
       available_country
       additional_info
       product_url
-      images
       files
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
